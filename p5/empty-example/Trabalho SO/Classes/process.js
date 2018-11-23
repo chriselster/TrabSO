@@ -6,31 +6,13 @@ class Process{
         this.hasMemory = 0;
         this.start = start;
         this.deadline = deadline;
-        this.end = this.start+duration;
+        this.duration = duration;
         this.priority = priority;
-        console.log(this.end);
-        if(this.end> maxi){
-            maxi = this.end;
-        }
     }
 
-    show(time, transX,transY){
-        if(!this.hasMemory){
-            //ram.escalona(this.pid);
-        }
-        if(this.hasCpu){
-            if(time>=this.start){
-                fill(255);
-                for (let a = this.start; a <= min(time,this.end); a++) {
-                   
-                    push();
-                    translate(mid-transX*(size+5),transY);
-                    rect(a*(size+5), this.pid*(size+5), size, size);
-                    pop();
-                    
-                }
-            }
-        }
+    aloca(){
+        cpu.escalona(this);
+        //ram.escalona(this);
     }
     
     alocaNaMemoria(){

@@ -1,30 +1,35 @@
 const size = 30;
-var mem;
+var ram;
 var ok = false;
 var button;
 var start;
 var time = 0;
 var ok = false;
 var cancel;
+var graph = [];
+var hist = [];
+var displaceX =0;
+var displaceY = 0;
 var i;
 var pid = 0;
 var transX = 0;
 var transY;
 var maxi = 0;
 // var graph;
+var x = new Process(pid++,0,0,20,0);
+var y = new Process(pid++,5,0,20,0);
 var submit;
 var processos = new PriorityQueue;
 var mid;
-var cpu = new CPU;
+var cpu = new CPU(new FIFO);
 function setup() {
     createCanvas(displayWidth, displayHeight, P2D);
     
     background(0);
-    mem = new Memory(width,height);
+    ram = new Memory(width,height);
     // graph = new Graph(width,height);
-    processos.push(new Process(pid++,0,0,101,0),0);
-    processos.push(new Process(pid++,5,0,10,0),5);
-    console.log(maxi);
+    processos.push(x,0);
+    processos.push(y,5);
     transY= height-200;
     //IO
     var inp = createInput('Oi');
@@ -36,7 +41,6 @@ function setup() {
     mid = width/2;
     iniciar = createButton('Iniciar');
     iniciar.mousePressed(start);
-    console.log(button.position);
     iniciar.position(button.position.x, height*0.01);
     frameRate(0);
 }
@@ -45,20 +49,24 @@ function draw() {
     background(0);
     frameRate(5);
     
-    mem.show();
+    ram.show();
     cpu.show(time, transX,transY);
-    // processos.forEach(p => {
-    //     p.show(time, transX,transY);
-    // });
-    console.log(maxi);
-    if(keyIsDown(RIGHT_ARROW)){transX++;}
-    if(keyIsDown(LEFT_ARROW)){transX--;}
-    if(keyIsDown(UP_ARROW)){transY+=size+5;}
-    if(keyIsDown(DOWN_ARROW)){transY-=size+5;}
-    if(time<maxi){
-        transX++;
-        time++;
-    }else noLoop();
+    while(processos.front().start == time){processos.front().aloca();processos.pop();}
+    for(let q = 0; q< hist.length; q++){
+        push();
+        translate(displaceX,displaceY);
+        hist[q].d();
+        pop();
+    }
+    //colocar num while
+    transX++;
+    time++;
+   // if(!(processos.isEmpty()&&cpu.esc.fila.empty()))noLoop()
+    if(keyIsDown(RIGHT_ARROW)){displaceX+=size+5;}
+    if(keyIsDown(LEFT_ARROW)){displaceX-=size+5;}
+    if(keyIsDown(UP_ARROW)){displaceY+=size+5;}
+    if(keyIsDown(DOWN_ARROW)){displaceY-=size+5;}
+    
     if(ok == true){
         //TODO: criar imputs ()
         rectMode(CENTER);
@@ -75,6 +83,6 @@ function draw() {
 }
 
 function keyPressed(){
-    console.log(key);
+ console.log(key);
     redraw();
 }
