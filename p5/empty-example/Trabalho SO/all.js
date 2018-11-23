@@ -13,7 +13,7 @@ var transY;
 var maxi = 0;
 // var graph;
 var submit;
-var processos = new PriorityQueue;
+var processos = [];
 var mid;
 function setup() {
     createCanvas(displayWidth, displayHeight, P2D);
@@ -21,16 +21,17 @@ function setup() {
     background(0);
     mem = new Memory(width,height);
     // graph = new Graph(width,height);
-    processos.push(new Process(pid++,0,0,10,0),0);
-    processos.push(new Process(pid++,5,0,10,0),5);
+    //processos.push(new Process(pid++,0,0,10,0));
+    //processos.push(new Process(pid++,5,0,10,0));
     console.log(maxi);
     transY= height-200;
     //IO
-    var inp = createInput('Oi');
-    inp.input(novoProcesso);
     
     button = createButton('Novo processo');
-    button.mousePressed(novoProcesso);
+    button.id("newprocess");
+    addAttr("#newprocess", "data-toggle", "modal");
+    addAttr("#newprocess", "data-target", "#Modal");
+    
     button.position(width*0.7, height*0.01);
     mid = width/2;
     iniciar = createButton('Iniciar');
@@ -76,3 +77,25 @@ function keyPressed(){
     console.log(key);
     redraw();
 }
+function addAttr(button,data,item){
+    $(button).attr(data,item);
+}
+
+function addProcess(){
+    var start = $("#start").val();  
+    var duration = $("#duration").val();  
+    var deadline = $("#deadline").val();  
+    var priority = $("#priority").val();
+    if(start !== "" && duration !== "" && deadline !== "" && priority !== "" ){
+        processos.push(new Process(pid++,start,deadline,duration,priority));
+        $("#start").val("");  
+        $("#duration").val("");  
+        $("#deadline").val("");  
+        $("#priority").val("");
+    }
+    else{
+        alert("Favor preencher todos os campos com valores válidos");
+    }
+
+}
+
