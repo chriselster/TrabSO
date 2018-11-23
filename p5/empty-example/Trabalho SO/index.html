@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>p5.js example</title>
     <style> body {padding: 0; margin: 0;} </style>
-    <script src="memory.js"></script>
-    <script src="disc.js"></script>
+    <script src="./Classes/memory.js"></script>
+    <script src="./Classes/disc.js"></script>
+    <script src="./Classes/cpu.js"></script>
+    <script src="./Classes/process.js"></script>
     <script src="functions.js"></script>
-    <script src="graph.js"></script>
-    <script src="process.js"></script>
+    <script src="Extras/PQ.js"></script>
     <script src="../../p5.min.js"></script>
     <script src="../../addons/p5.dom.min.js"></script>
     <script src="../../addons/p5.sound.min.js"></script>
     <script src="all.js"></script>
   </head>
   <body>
+    <form class="modal">
+      <label for="start">Start</label>
+      <input type="number" name="start">
+      <label for="duration">Duration</label>
+      <input type="number" name="duration">
+      <label for="deadline">Deadline</label>
+      <input type="number" name="deadline">
+      <label for="priority">Priority</label>
+      <input type="number" name="priority">
+    </form>
   </body>
 </html>

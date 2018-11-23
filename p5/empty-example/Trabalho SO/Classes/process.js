@@ -2,23 +2,21 @@ class Process{
 
     constructor(pid,start,deadline,duration,priority){
         this.pid = pid;
-        this.hasCpu = 0;
+        this.hasCpu = 1;
         this.hasMemory = 0;
         this.start = start;
         this.deadline = deadline;
         this.end = this.start+duration;
         this.priority = priority;
+        console.log(this.end);
         if(this.end> maxi){
             maxi = this.end;
         }
     }
 
-    show(time, transX,transY,i){
+    show(time, transX,transY){
         if(!this.hasMemory){
-            ram.escalona(this.pid);
-        }
-        if(!this.hasCpu){
-            cpu.escalona(this.pid);
+            //ram.escalona(this.pid);
         }
         if(this.hasCpu){
             if(time>=this.start){
@@ -27,7 +25,7 @@ class Process{
                    
                     push();
                     translate(mid-transX*(size+5),transY);
-                    rect(a*(size+5), i*(size+5), size, size);
+                    rect(a*(size+5), this.pid*(size+5), size, size);
                     pop();
                     
                 }

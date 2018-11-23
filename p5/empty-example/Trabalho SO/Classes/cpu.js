@@ -9,7 +9,5 @@ class CPU{
 
     }
 
-    this.show({
-
-    })
+    show(){}
 }

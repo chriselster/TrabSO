@@ -7,12 +7,13 @@ var time = 0;
 var ok = false;
 var cancel;
 var i;
+var pid = 0;
 var transX = 0;
 var transY;
 var maxi = 0;
 // var graph;
 var submit;
-var processos = [];
+var processos = new PriorityQueue;
 var mid;
 function setup() {
     createCanvas(displayWidth, displayHeight, P2D);
@@ -20,10 +21,14 @@ function setup() {
     background(0);
     mem = new Memory(width,height);
     // graph = new Graph(width,height);
-    processos.push(new Process(5,0,10,0));
-    processos.push(new Process(10,0,10,0 ));
+    processos.push(new Process(pid++,0,0,10,0),0);
+    processos.push(new Process(pid++,5,0,10,0),5);
+    console.log(maxi);
     transY= height-200;
     //IO
+    var inp = createInput('Oi');
+    inp.input(novoProcesso);
+    
     button = createButton('Novo processo');
     button.mousePressed(novoProcesso);
     button.position(width*0.7, height*0.01);
@@ -40,12 +45,10 @@ function draw() {
     frameRate(5);
     
     mem.show();
-    i=0;
     processos.forEach(p => {
-        p.show(time, transX,transY,i);
-        i++;
+        p.show(time, transX,transY);
     });
-
+    console.log(maxi);
     if(keyIsDown(RIGHT_ARROW)){transX++;}
     if(keyIsDown(LEFT_ARROW)){transX--;}
     if(keyIsDown(UP_ARROW)){transY+=size+5;}
