@@ -19,7 +19,7 @@ var maxi = 0;
 var x = new Process(pid++,0,0,20,0);
 var y = new Process(pid++,5,0,20,0);
 var submit;
-var processos = new PriorityQueue;
+var processos = [];
 var mid;
 var cpu = new CPU(new FIFO);
 function setup() {
@@ -32,11 +32,12 @@ function setup() {
     processos.push(y,5);
     transY= height-200;
     //IO
-    var inp = createInput('Oi');
-    inp.input(novoProcesso);
     
     button = createButton('Novo processo');
-    button.mousePressed(novoProcesso);
+    button.id("newprocess");
+    addAttr("#newprocess", "data-toggle", "modal");
+    addAttr("#newprocess", "data-target", "#Modal");
+    
     button.position(width*0.7, height*0.01);
     mid = width/2;
     iniciar = createButton('Iniciar');
@@ -86,3 +87,25 @@ function keyPressed(){
  console.log(key);
     redraw();
 }
+function addAttr(button,data,item){
+    $(button).attr(data,item);
+}
+
+function addProcess(){
+    var start = $("#start").val();  
+    var duration = $("#duration").val();  
+    var deadline = $("#deadline").val();  
+    var priority = $("#priority").val();
+    if(start !== "" && duration !== "" && deadline !== "" && priority !== "" ){
+        processos.push(new Process(pid++,start,deadline,duration,priority));
+        $("#start").val("");  
+        $("#duration").val("");  
+        $("#deadline").val("");  
+        $("#priority").val("");
+    }
+    else{
+        alert("Favor preencher todos os campos com valores válidos");
+    }
+
+}
+
