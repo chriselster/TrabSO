@@ -1,4 +1,4 @@
-const size = 20;
+const size = 30;
 var mem;
 var ok = false;
 var button;
@@ -15,6 +15,7 @@ var maxi = 0;
 var submit;
 var processos = [];
 var mid;
+var cpu = new CPU;
 function setup() {
     createCanvas(displayWidth, displayHeight, P2D);
     
@@ -46,9 +47,10 @@ function draw() {
     frameRate(5);
     
     mem.show();
-    processos.forEach(p => {
-        p.show(time, transX,transY);
-    });
+    cpu.show(time, transX,transY);
+    // processos.forEach(p => {
+    //     p.show(time, transX,transY);
+    // });
     console.log(maxi);
     if(keyIsDown(RIGHT_ARROW)){transX++;}
     if(keyIsDown(LEFT_ARROW)){transX--;}
