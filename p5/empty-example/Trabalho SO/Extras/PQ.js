@@ -33,19 +33,19 @@ class PriorityQueue {
     
     pop() 
     { 
-        if (this.isEmpty()) 
+        if (this.empty()) 
             return "Underflow"; 
         return this.items.shift(); 
     } 
 
     front() 
     { 
-        if (this.isEmpty()) 
+        if (this.empty()) 
             return "No elements in Queue"; 
         return this.items[0].element; 
     } 
 
-    isEmpty() 
+    empty() 
     { 
         return this.items.length == 0; 
     } 

@@ -1,14 +1,4 @@
-function novoProcesso(){
-    ok = true;
-}
-
-function cancelaProcesso(){
-    ok = false;
-    frameRate(5);
-    cancel.hide();
-    submit.hide();
-}
-
 function start(){
+    time = 0;
     frameRate(5);
 }

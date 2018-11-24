@@ -14,22 +14,18 @@ var i;
 var pid = 0;
 var transX = 0;
 var transY;
-var maxi = 0;
+var tam =1;
 // var graph;
-var x = new Process(pid++,0,0,20,0);
-var y = new Process(pid++,5,0,20,0);
 var submit;
-var processos = [];
+var processos = new PriorityQueue;
 var mid;
-var cpu = new CPU(new FIFO);
+var cpu = new CPU(new SJF);
 function setup() {
     createCanvas(displayWidth, displayHeight, P2D);
     
     background(0);
     ram = new Memory(width,height);
     // graph = new Graph(width,height);
-    processos.push(x,0);
-    processos.push(y,5);
     transY= height-200;
     //IO
     
@@ -51,7 +47,7 @@ function draw() {
     frameRate(5);
     
     ram.show();
-    cpu.show(time, transX,transY);
+    if(!(processos.empty()&&cpu.esc.fila.empty()))cpu.show(time, transX,transY);
     while(processos.front().start == time){processos.front().aloca();processos.pop();}
     for(let q = 0; q< hist.length; q++){
         push();
@@ -62,9 +58,9 @@ function draw() {
     //colocar num while
     transX++;
     time++;
-   // if(!(processos.isEmpty()&&cpu.esc.fila.empty()))noLoop()
-    if(keyIsDown(RIGHT_ARROW)){displaceX+=size+5;}
-    if(keyIsDown(LEFT_ARROW)){displaceX-=size+5;}
+    
+    if(keyIsDown(RIGHT_ARROW)){displaceX-=size+5;}
+    if(keyIsDown(LEFT_ARROW)){displaceX+=size+5;}
     if(keyIsDown(UP_ARROW)){displaceY+=size+5;}
     if(keyIsDown(DOWN_ARROW)){displaceY-=size+5;}
     
@@ -83,10 +79,6 @@ function draw() {
     }
 }
 
-function keyPressed(){
- console.log(key);
-    redraw();
-}
 function addAttr(button,data,item){
     $(button).attr(data,item);
 }
@@ -97,7 +89,7 @@ function addProcess(){
     var deadline = $("#deadline").val();  
     var priority = $("#priority").val();
     if(start !== "" && duration !== "" && deadline !== "" && priority !== "" ){
-        processos.push(new Process(pid++,start,deadline,duration,priority));
+        processos.push(new Process(pid++,start,deadline,duration,priority), start);
         $("#start").val("");  
         $("#duration").val("");  
         $("#deadline").val("");  
@@ -106,6 +98,6 @@ function addProcess(){
     else{
         alert("Favor preencher todos os campos com valores válidos");
     }
-
+    tam++;
 }
 
