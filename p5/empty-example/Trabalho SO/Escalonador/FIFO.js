@@ -7,4 +7,8 @@ class FIFO{
     push(a){
         this.fila.push(a);
     }
+
+    length(){
+        return this.fila.items.length;
+    }
 }

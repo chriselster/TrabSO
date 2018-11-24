@@ -9,7 +9,7 @@ class CPU{
     }
 
     show(time, transX,transY){
-        hist.push({txt: time, x: time*(size+5)+size/4, y: 0*(size+5)+size/4, d: function(){
+        hist.push({txt: time, x: (time+1)*(size+5)+size/4, y: 0*(size+5)+size/4, d: function(){
 
             stroke(255);
             fill(0);
@@ -23,16 +23,21 @@ class CPU{
 
         }})
         if(!this.esc.fila.empty()){
-            var p = this.esc.fila.front();
-        
-            
-            
-            
-
-            
+            var p;
+            for(let i = 0; i<this.esc.length(); i++){
+                p = this.esc.fila.front();
+                if(p.hasMemory)break;
+                else{
+                    if(!p.alocando)p.alocaMem();
+                    this.esc.fila.pop();
+                    this.esc.fila.push(p);
+                }
+            }
+            if(p == undefined)return;
+            if(!p.hasMemory)return;
             hist.push({x:time*(size+5),y: (p.pid+1)*(size+5), trans: [mid-transX*(size+5),transY],
                 d: function(){
-
+                rectMode(CENTER);
                 translate(0,this.trans[1]);
                 rect(this.x, this.y,size,size);}});
 
