@@ -9,6 +9,10 @@ class Process{
         this.duration = duration;
         this.priority = priority;
         this.size = 7;
+        this.color = {h:hu,s:sat+40,b:100};
+        hu+=36;sat+=36;brig+=36;
+        sat%=60;
+        hu%=100;
     }
 
     aloca(){

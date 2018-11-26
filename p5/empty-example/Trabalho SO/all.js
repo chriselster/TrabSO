@@ -1,39 +1,53 @@
 const size = 30;
 var button;
+var qt =5;
 var cancel;
-var cpu = new CPU(new SJF);
+var quantum = 5;
+var cpu = new CPU(new RoundRobin());
 var displaceX = 0;
 var displaceY = 0;
 var graph = [];
 var hist = [];
+var hu=0,sat=0,brig=0;
 var mem = [];
 var jobs = [];
 var i;
+var over = 1;
 var mid;
 var ok = false;
 var ok = false;
 var pid = 0;
-var processos = new PriorityQueue;
+var processos = new PriorityQueue();
 var ram;
 var start;
 var submit;
-var tam = 1;
+var tam = 6;
 var time = 0;
 var transX = 0;
 var transY = 0;
-
+//TODO: formulario quantum e alg escalonador
+//TODO: Adicionar overhead
 function setup() {
     createCanvas(windowWidth, windowHeight, P2D);
     background(0);
-    ram = new Memory(width, height, new FIFO);
+    ram = new Memory(width, height, new FIFO());
     // graph = new Graph(width,height);
     transY = height - 200;
     //IO
-    var job = new Process(0,3,11,33,3);
-    processos.push(job,3);
+    var job = new Process(0,0,11,8,3);
+    processos.push(job,0);
     jobs.push(job);
-    job = new Process(1,3,10,33,3);
-    processos.push(job,3);
+    job = new Process(1,0,5,7,1);
+    processos.push(job,0);
+    jobs.push(job);
+    job = new Process(2,0,4,10,1);
+    processos.push(job,0);
+    jobs.push(job);
+    job = new Process(3,0,6,10,1);
+    processos.push(job,0);
+    jobs.push(job);
+    job = new Process(4,0,3,10,1);
+    processos.push(job,0);
     jobs.push(job);
     button = createButton('Novo processo');
     button.id("newprocess");
@@ -50,7 +64,7 @@ function setup() {
 
 function draw() {
     background(0);
-    frameRate(2);
+    frameRate(10);
 
     ram.show();
     if (!(processos.empty() && cpu.esc.fila.empty())) cpu.show(time, transX, transY);
@@ -74,20 +88,6 @@ function draw() {
     if (keyIsDown(LEFT_ARROW)) { displaceX += size + 5; }
     if (keyIsDown(UP_ARROW)) { displaceY += size + 5; }
     if (keyIsDown(DOWN_ARROW)) { displaceY -= size + 5; }
-
-    if (ok == true) {
-        //TODO: criar imputs ()
-        rectMode(CENTER);
-        stroke(60);
-        fill(60);
-        rect(width * 0.5, height * 0.5, width * 0.6, height * 0.6);
-        cancel = createButton('Cancelar');
-        cancel.mousePressed(cancelaProcesso);
-        cancel.position(width * 0.6, height * 0.7);
-        submit = createButton('Adicionar');
-        submit.position(width * 0.7, height * 0.7);
-        frameRate(0);
-    }
 }
 
 function addAttr(button, data, item) {

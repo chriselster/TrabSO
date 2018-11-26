@@ -1,7 +1,8 @@
 class SJF{
 
     constructor(){
-        this.fila = new PriorityQueue;
+        this.premp = 0;
+        this.fila = new PriorityQueue();
     }
 
     push(a){

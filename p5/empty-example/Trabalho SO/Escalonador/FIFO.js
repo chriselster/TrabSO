@@ -1,7 +1,8 @@
 class FIFO{
 
     constructor(){
-        this.fila = new Queue;
+        this.premp = 0;
+        this.fila = new Queue();
     }
 
     push(a){

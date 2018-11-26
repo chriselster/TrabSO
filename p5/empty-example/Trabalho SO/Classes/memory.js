@@ -7,7 +7,7 @@ class Memory {
         this.processos = [];
         this.esc = esq;
         this.next = 0;
-        this.color = 60;
+        this.color = {h:50,s:50,b:100};
     }
     show() {
         var page = this.height / 50;
@@ -23,10 +23,10 @@ class Memory {
         }
         if (this.processos.length>0) {
             for (let a = 0; a < min(3, this.processos[0].size); a++) {
-                mem.push({x:this.x,next:this.next,y:this.y,color:this.color,width:this.width,page:page,d:function(){
+                mem.push({x:this.x,next:this.next,y:this.y,color:this.color,width:this.width,page:page,color: this.processos[0].color,d:function(){
                     push();
                     colorMode(HSB, 100);
-                    fill(this.color,50,100);
+                    fill(this.color.h,this.color.s,this.color.b);
                     rect(this.x, this.y + this.next * this.page, this.width, this.page);
                     pop();
                 }
@@ -35,8 +35,8 @@ class Memory {
                 this.processos[0].size--;
             }
             if (!this.processos[0].size) {
-                this.color += 60;
-                this.color %= 255;
+                this.color = random(0, 1000);
+                this.color %=101;
                 jobs[this.processos[0].id].hasMemory = 1;
                 jobs[this.processos[0].id].alocando = 0;
                 this.processos.shift();
@@ -48,7 +48,7 @@ class Memory {
         console.log(p);
         p.alocando = 1;
         this.esc.push(p);
-        this.processos.push({size:p.size, id: p.pid});
+        this.processos.push({size:p.size, id: p.pid, color: p.color});
     }
 
     reset() {
