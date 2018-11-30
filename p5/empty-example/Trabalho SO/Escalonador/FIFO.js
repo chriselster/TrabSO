@@ -5,6 +5,10 @@ class FIFO{
         this.fila = new Queue();
     }
 
+    front(){
+        return this.fila.front();
+    }
+    
     push(a){
         this.fila.push(a);
     }

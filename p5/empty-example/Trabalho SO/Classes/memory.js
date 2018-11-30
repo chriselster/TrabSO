@@ -6,6 +6,7 @@ class Memory {
         this.height = h * 0.5;
         this.processos = [];
         this.esc = esq;
+        this.qtd = 50;
         this.next = 0;
         this.color = {h:50,s:50,b:100};
     }
@@ -22,33 +23,51 @@ class Memory {
             
         }
         if (this.processos.length>0) {
-            for (let a = 0; a < min(3, this.processos[0].size); a++) {
-                mem.push({x:this.x,next:this.next,y:this.y,color:this.color,width:this.width,page:page,color: this.processos[0].color,d:function(){
+            
+            for (let a = 0; a < tempi[u]; a++) {
+                
+                if(this.qtd == 0){
+                    this.next = jobs[this.esc.front().pid].memPos[0];
+                    jobs[this.esc.front().pid].hasMemory = 0;
+                    jobs[this.esc.front().pid].pagsForaDaMem++;
+                    jobs[this.esc.front().pid].memPos.shift();
+                    if(jobs[this.esc.front().pid].memPos.length == 0){
+                        this.esc.fila.pop();
+                    }
+                    this.qtd++;
+                }
+                mem.push({width:this.width,pid:jobs[this.processos[0].id].pid,x:this.x,next:this.next,y:this.y,color:this.color,width:this.width,page:page,color: this.processos[0].color,d:function(){
                     push();
                     colorMode(HSB, 100);
                     fill(this.color.h,this.color.s,this.color.b);
                     rect(this.x, this.y + this.next * this.page, this.width, this.page);
+                    fill(0);
+                    stroke(0);
+                    text(this.pid,this.x+this.width/2, this.y + this.next * this.page, this.width, this.page);
                     pop();
                 }
                 });
+                jobs[this.processos[0].id].memPos.push(this.next);
                 this.next++;
-                this.processos[0].size--;
+                this.qtd--;
+                jobs[this.processos[0].id].pagsForaDaMem--;
+                if (!jobs[this.processos[0].id].pagsForaDaMem) {
+                    this.color = random(0, 1000);
+                    this.color %=101;
+                    jobs[this.processos[0].id].alocando = 0;
+                    this.processos.shift();
+                }
+                if(!this.processos.length)break;
             }
-            if (!this.processos[0].size) {
-                this.color = random(0, 1000);
-                this.color %=101;
-                jobs[this.processos[0].id].hasMemory = 1;
-                jobs[this.processos[0].id].alocando = 0;
-                this.processos.shift();
-            }
+            u++;
+            u%=3;
         }
     }
 
     escalona(p) {
-        console.log(p);
         p.alocando = 1;
         this.esc.push(p);
-        this.processos.push({size:p.size, id: p.pid, color: p.color});
+        this.processos.push({pagsForaDaMem:p.pagsForaDaMem, id: p.pid, color: p.color});
     }
 
     reset() {

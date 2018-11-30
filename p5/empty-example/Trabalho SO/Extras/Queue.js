@@ -8,7 +8,6 @@ class Queue
     push(element) 
     {    
         this.items.push(element); 
-        console.log(this.front().duration);
     } 
 
     pop() 
