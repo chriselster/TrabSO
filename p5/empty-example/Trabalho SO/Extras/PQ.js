@@ -31,6 +31,10 @@ class PriorityQueue {
         } 
     }
     
+    clear(){
+        this.items= [];
+    }
+
     pop() 
     { 
         if (this.empty()) 

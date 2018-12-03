@@ -1,6 +1,7 @@
 class FIFO{
 
     constructor(){
+        this.id = -1;
         this.premp = 0;
         this.fila = new Queue();
     }

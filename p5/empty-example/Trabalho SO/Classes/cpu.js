@@ -45,12 +45,11 @@ class CPU{
                 p = this.esc.fila.front();
                 if(!p.pagsForaDaMem)break;
                 else{
-                    if(!p.alocando)p.alocaMem();
+                    if(!p.bloqueado)p.alocaMem();
                     this.esc.fila.pop();
                     this.esc.fila.push(p);
                 }
             }
-            console.log(this.emExecucao, p.pid, quantum);
             if(p == undefined|| p.pagsForaDaMem)return;
             if(p.pid != this.emExecucao && this.emExecucao!= Infinity){
                 this.emExecucao = Infinity;
@@ -58,20 +57,22 @@ class CPU{
                 quantum = qt;
                 this.overhead();
             }
-            // if(this.ant != Infinity && p.pid != this.ant&& quantum!=qt && this.esc.premp){
-            //     //Page Fault
-            //     this.ov = over;
-            //     quantum = qt;
-            // }
             else {
+                p.memPos.forEach(page => {
+                    ram.pages[page].r = 1;
+                });
                 this.emExecucao = p.pid;
                 hist.push({pid: p.pid,x:time*(size+size*0.2),y: (p.pid+1)*(size+size*0.2), trans: [mid-transX*(size+size*0.2),transY],
                     d: function(){
+                    push();
+                    stroke(0);
+                    fill(255);
                     rectMode(CENTER);
                     translate(0,this.trans[1]);
                     rect(this.x, this.y,size,size);
                     fill(0);
                     text(this.pid,this.x+size/2, this.y+size/2,size,size);
+                    pop();
                 }});
                 this.ant = p.pid;
                 p.duration--;
@@ -83,12 +84,12 @@ class CPU{
                 }
             }
             if(this.esc.premp&&quantum == 0){
-                console.log("fudeu")
                 this.emExecucao = Infinity;
                 var p = this.esc.fila.front();
                 this.esc.fila.pop();
                 if(this.esc.id == 0)this.esc.fila.push(p,p.deadline);
-                else this.esc.fila.push(p);
+                else if(this.esc.id == 1) this.esc.fila.push(p);
+                else this.esc.fila.push(p, p.val);
                 this.ov = over;
                 quantum =qt;
             }

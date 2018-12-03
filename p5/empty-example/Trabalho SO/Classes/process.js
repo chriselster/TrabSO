@@ -2,10 +2,8 @@ class Process{
 
     constructor(pid,start,deadline,duration,priority){
         this.pid = pid;
-        this.executando =0;
-        this.exeption = 0;
         this.hasMemory = 0;
-        this.alocando = 0;
+        this.bloqueado = 0;
         this.start = start;
         this.deadline = deadline;
         this.duration = duration;

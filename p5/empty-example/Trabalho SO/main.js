@@ -1,7 +1,5 @@
 //TODO: formulario quantum e alg escalonador
 var button;
-var u = 0;
-var tempi = [2,2,3];
 var cancel;
 var cpu;
 var displaceX = 0;
@@ -33,8 +31,7 @@ function setup() {
     cpu = new CPU(new RoundRobin());
     createCanvas(windowWidth-7, windowHeight-7, P2D);
     background(0);
-    ram = new Memory(width, height, new FIFO());
-    // graph = new Graph(width,height);
+    ram = new Memory(width, height, new LRU());
     transY = height*0.65;
     size = ceil(height*0.03);
     //IO
@@ -90,8 +87,7 @@ function setup() {
 
 function draw() {
     background(0);
-    frameRate(100);
-
+    //frameRate(100);
     ram.show();
     if (!(processos.empty() && cpu.esc.fila.empty())) {cpu.show(time, transX, transY); displaceX-=size+floor(size*0.1);}
     else frameRate(100);
@@ -111,6 +107,7 @@ function draw() {
     transX++;
     time++;
 
+    if(ram.esc.id == 1)ram.atualValPaginas();
     if (keyIsDown(RIGHT_ARROW)) { displaceX -= size + floor(size*0.2); }
     if (keyIsDown(LEFT_ARROW)) { displaceX += size + floor(size*0.2); }
     if (keyIsDown(UP_ARROW)) { displaceY += size + floor(size*0.2); }
