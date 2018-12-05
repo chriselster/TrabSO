@@ -30,7 +30,7 @@ var transY = 0;
 function setup() {
     cpu = new CPU(new RoundRobin());
     createCanvas(windowWidth-7, windowHeight-7, P2D);
-    background(0);
+    background(255);
     ram = new Memory(width, height, new LRU());
     transY = height*0.8;
     size = ceil(height*0.03);
@@ -74,15 +74,32 @@ function setup() {
     
     button = createButton('Novo processo');
     button.id("newprocess");
+    addAttr("#newprocess", "class", "btn btn-primary");
     addAttr("#newprocess", "data-toggle", "modal");
     addAttr("#newprocess", "data-target", "#Modal");
     displaceX = width/2;
     button.position(width * 0.7, height * 0.01);
     mid = width / 2;
     iniciar = createButton('Iniciar');
+    iniciar.id("iniciar")
+    addAttr("#iniciar", "class", "btn btn-success");
     iniciar.mousePressed(start);
     iniciar.position(button.x + button.width + 20, height * 0.01);
     frameRate(0);
+    node = document.createElement("i");
+    node.setAttribute("id", "question");
+    node.setAttribute("class", "fas fa-question-circle");
+    node.style.fontSize = "38px";
+    node.dataToggle = "tooltip";
+    node.dataPlacement = "bottom";
+    node.title = "Dúvidas sobre os algoritmos"
+    icon = createDiv();
+    icon.id("icon");
+    document.getElementById("icon").appendChild(node);
+    icon.position(button.x + button.width + 100, height * 0.01);
+    addAttr("#icon", "data-toggle", "modal");
+    addAttr("#icon", "data-target", "#Modal2");
+    
 }
 
 function draw() {
