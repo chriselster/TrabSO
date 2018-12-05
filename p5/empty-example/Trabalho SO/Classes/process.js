@@ -4,6 +4,7 @@ class Process{
         this.pid = pid;
         this.hasMemory = 0;
         this.bloqueado = 0;
+        this.executando = 0;
         this.start = start;
         this.deadline = deadline;
         this.duration = duration;
@@ -18,7 +19,6 @@ class Process{
 
     aloca(){
         cpu.escalona(this);
-        ram.escalona(this);
     }
 
     alocaMem(){

@@ -14,7 +14,7 @@ class LRU{
         var u = 0;
         pages.forEach(page => {
             var tot = 0;
-            console.log(page.val);
+            //console.log(page.val);
             for(let i=0;i<page.val.length;i++){
                 tot += pow(2,i)*parseInt(page.val[i]);
             }

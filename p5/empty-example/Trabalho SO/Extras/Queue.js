@@ -4,7 +4,11 @@ class Queue
     { 
         this.items = []; 
     } 
-                  
+    
+    unshift(element){
+        this.items.unshift(element);
+    }
+
     push(element) 
     {    
         this.items.push(element); 

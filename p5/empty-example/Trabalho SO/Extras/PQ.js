@@ -31,6 +31,10 @@ class PriorityQueue {
         } 
     }
     
+    unshift(element){
+        this.items.unshift(element);
+    }
+
     clear(){
         this.items= [];
     }

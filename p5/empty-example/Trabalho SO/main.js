@@ -32,7 +32,7 @@ function setup() {
     createCanvas(windowWidth-7, windowHeight-7, P2D);
     background(0);
     ram = new Memory(width, height, new LRU());
-    transY = height*0.65;
+    transY = height*0.8;
     size = ceil(height*0.03);
     //IO
     var job = new Process(0,0,1,6,6);
@@ -86,12 +86,13 @@ function setup() {
 }
 
 function draw() {
-    background(0);
-    //frameRate(100);
-    ram.show();
+    background(255);
+    //frameRate(5);
+    while(processos.front().start == time) { processos.front().aloca(); processos.pop();}
+    //console.log(cpu.esc.fila);
     if (!(processos.empty() && cpu.esc.fila.empty())) {cpu.show(time, transX, transY); displaceX-=size+floor(size*0.1);}
     else frameRate(100);
-    while (processos.front().start == time) { processos.front().aloca(); processos.pop(); }
+    ram.show();
     for (let q = 0; q < hist.length; q++) {
         push();
         translate(displaceX, displaceY);
@@ -114,9 +115,9 @@ function draw() {
     if (keyIsDown(DOWN_ARROW)) { displaceY -= size + floor(size*0.2); }
 }
 
-function mouseClicked(){
-    redraw();
-}
+// function mouseClicked(){
+//     redraw();
+// }
 
 function addAttr(button, data, item) {
     $(button).attr(data, item);
