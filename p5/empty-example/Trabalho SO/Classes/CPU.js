@@ -86,7 +86,9 @@ class CPU {
                     translate(0, this.trans[1]);
                     rect(this.x, this.y, size, size);
                     fill(0);
-                    text(this.pid, this.x + size / 2, this.y + size / 2, size, size);
+                    noStroke();
+                    textSize(height*0.015);
+                    text(this.pid, this.x , this.y+size*0.4);
                     pop();
                 }
             });
@@ -116,7 +118,7 @@ class CPU {
             p.duration--;
             if (this.esc.premp) quantum--;
             if (p.duration == 0) {
-                p.end = time;
+                p.end = time+1;
                 p.executando = 0;
                 this.emExecucao = Infinity;
                 this.esc.fila.pop();

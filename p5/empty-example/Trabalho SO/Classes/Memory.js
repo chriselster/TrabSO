@@ -40,7 +40,6 @@ class Memory {
     }
 
     show() {
-        // console.log(this.esc.fila);
         var tamPage = this.height / 50;
         push();
         stroke(0);
@@ -55,7 +54,8 @@ class Memory {
             line(this.x, i, this.x + this.width, i);
             stroke(0);
             fill(0);
-            noStroke();
+            strokeWeight(0.7);
+            textSize(tamPage*1.1)
             text(u++, this.x - 20, i);
             pop();
         }
@@ -102,7 +102,8 @@ class Memory {
                         rect(this.x, this.y + this.next * this.tamPage, this.width, this.tamPage);
                         fill(0);
                         stroke(0);
-                        noStroke();
+                        strokeWeight(0.7);
+                        textSize(tamPage*1.1)
                         text(this.id, this.x + this.width / 2, this.y + (this.next+1) * this.tamPage);
                         pop();
                     }

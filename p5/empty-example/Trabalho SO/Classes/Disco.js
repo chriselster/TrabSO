@@ -10,7 +10,6 @@ class Disco {
         this.vazio = new Array((jobs.length*7));
         this.paginas = new Array((jobs.length*7));
         this.vazio.fill(1);
-        console.log(this.tamProc);
     }
 
     show() {
@@ -32,8 +31,8 @@ class Disco {
                 fill(this.paginas[u].color.h,this.paginas[u].color.s,this.paginas[u].color.b);
                 rect(this.x, this.y+ u*this.tamProc, this.width,this.tamProc);
                 fill(0);
-                noStroke();
-                textSize(this.tamProc);
+                strokeWeight(0.5);
+                textSize(this.tamProc*1.2);
                 text(this.paginas[u].pid,this.x+this.width/2, (this.y+(u+1) *this.tamProc));
 
             }
@@ -45,7 +44,6 @@ class Disco {
 
     aloca(p) {
         for(let i = 0;i<this.vazio.length;i++){
-            console.log(this.vazio[i])
             if(this.vazio[i] == 1){
                 this.vazio[i]=0;
                 this.paginas[i] = p;

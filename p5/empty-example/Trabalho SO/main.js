@@ -2,6 +2,7 @@
 var button;
 var cancel;
 var cpu;
+var okay = 1;
 var displaceX = 0;
 var displaceY = 0;
 var graph = [];
@@ -25,7 +26,7 @@ var ram;
 var size;
 var start;
 var submit;
-var tam = 12;
+var tam = 10;
 var time = 0;
 var transX = 0;
 var transY = 0;
@@ -59,8 +60,8 @@ function setup() {
     job = new Process(5, 0, 6, 6, 6);
     processos.push(job, 0);
     jobs.push(job);
-    job = new Process(6, 3, 6, 6, 6);
-    processos.push(job, 3);
+    job = new Process(6, 0, 6, 6, 6);
+    processos.push(job, 0);
     jobs.push(job);
     job = new Process(7, 0, 6, 6, 6);
     processos.push(job, 0);
@@ -120,16 +121,19 @@ function draw() {
     while (processos.front().start == time) {
         processos.front().aloca();
         let u = processos.front().pagsForaDaMem;
-        while(u--)processos.front().alocaDisco();
+        while (u--) processos.front().alocaDisco();
         processos.pop();
     }
-    //console.log(cpu.esc.fila);
     if (!(processos.empty() && cpu.esc.fila.empty())) {
         cpu.show(time, transX, transY);
         displaceX -= size + floor(size * 0.1);
     } else {
         frameRate(100);
-        calcularTurnaround();
+        if(okay == 1){
+            okay=0;
+            
+            alert(calcularTurnaround());
+        }
     }
     ram.show();
     disco.show();
