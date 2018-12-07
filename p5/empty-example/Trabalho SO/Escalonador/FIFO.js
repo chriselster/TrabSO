@@ -1,24 +1,24 @@
-class FIFO{
+class FIFO {
 
-    constructor(){
+    constructor() {
         this.id = -1;
         this.premp = 0;
         this.fila = new Queue();
     }
 
-    pushFront(a){
+    pushFront(a) {
         this.fila.unshift(a);
     }
 
-    front(){
+    front() {
         return this.fila.front();
     }
-    
-    push(a){
+
+    push(a) {
         this.fila.push(a);
     }
 
-    length(){
+    length() {
         return this.fila.items.length;
     }
 }
