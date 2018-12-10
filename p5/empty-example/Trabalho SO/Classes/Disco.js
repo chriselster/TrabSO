@@ -1,7 +1,7 @@
 class Disco {
     constructor(w, h) {
         this.x = w * 0.55;
-        this.y = h * 0.1;
+        this.y = h * 0.12;
         this.width = w * 0.3;
         this.height = h * 0.65;
         this.next = 0;

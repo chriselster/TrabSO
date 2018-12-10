@@ -31,15 +31,21 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="ModalLabel">New Process</h5>
+            <h5 class="modal-title" id="ModalLabel">Novo Processo</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          <div class="alert alert-success alert-dismissible fade show" id="success1" style="display:none;" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Processo criado com sucesso!
+          </div>
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="start" class="col-form-label">Start:</label>
+                <label for="start" class="col-form-label">Início:</label>
                 <input type="number" class="form-control" min="0" id="start">
               </div>
               <div class="form-group">
@@ -47,48 +53,95 @@
                 <input type="number" class="form-control" min="0" id="deadline">
               </div>
               <div class="form-group">
-                <label for="duration" class="col-form-label">Duration:</label>
+                <label for="duration" class="col-form-label">Duração:</label>
                 <input type="number" class="form-control" min="0" id="duration">
               </div>
               <div class="form-group">
-                <label for="priority" class="col-form-label">Priority:</label>
+                <label for="priority" class="col-form-label">Prioridade:</label>
                 <input type="number" class="form-control" min="0" id="priority">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="send" onclick="addProcess();">Create Process</button>
+            <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary" id="send" onclick="addProcess();">Criar Processo</button>
           </div>
         </div>
       </div>
     </div>
     <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Algoritmos de Escalonamento</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <h5><b>FIFO</b></h5>
+              <p>O algoritmo de escalonamento FIFO (First In First Out) é uma estrutura de dados que apresenta o seguinte critério: O primeiro elemento a ser retirado é o primeiro que tiver sido inserido. É um algoritmo de escalonamento não preemptivo que entrega a CPU os processos pela ordem de chegada.</p>
+            </div>
+            <div class="form-group">
+              <h5><b>SJF</b></h5>
+              <p>SJF (Shortest Job First) é um algoritmo de escalonamento que seleciona para ser executado o processo com o menor tempo de execução. SJF é um algoritmo não-preemptivo.</p>
+            </div>
+            <div class="form-group">
+              <h5><b>ROUND ROBIN</b></h5>
+              <p>Round-robin é um algoritmo de escalonamento que atribui frações de tempo (Quantum) para cada processo em partes iguais e de forma circular, manipulando todos os processos sem prioridades e totalmente imune a problemas de starvation. </p>
+            </div>
+            <div class="form-group">
+              <h5><b>EDF</b></h5>
+              <p>EDF (Earliest Deadline First) é um algoritmo de escalonamento  que atribui frações de tempo (Quantum) para cada processo em partes iguais, mas diferentemente do
+              Round Robin, ele sempre dará prioridade ao processo que tenha a menor deadline, ou seja, esse processo sempre será o primeiro na fila de execução. </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="ModalLabel">Algoritmos de Escalonamento</h5>
+              <h5 class="modal-title" id="ModalLabel">Configurações</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <div class="alert alert-success alert-dismissible fade show" id="success2" style="display:none;" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              Configuração feita com sucesso!
+            </div>
             <div class="modal-body">
-              <div class="form-group">
-                <h5><b>FIFO</b></h5>
-                <p>Insira aqui explicação para o FIFO</p>
-              </div>
-              <div class="form-group">
-                <h5><b>SJF</b></h5>
-                <p>Insira aqui explicação para o SJF</p>
-              </div>
-              <div class="form-group">
-                <h5><b>ROUND ROBIN</b></h5>
-                <p>Insira aqui explicação para o ROUND ROBIN</p>
-              </div>
-              <div class="form-group">
-                <h5><b>EDF</b></h5>
-                <p>Insira aqui explicação para o EDF</p>
-              </div>
+              <form>
+                <div class="form-group">
+                  <label for="escalonamento" class="col-form-label">Escalonamento da CPU:</label>
+                  <select type="select" class="form-control" min="0" id="escalonamento">
+                    <option>FIFO</option>
+                    <option>SJF</option>
+                    <option>ROUND ROBIN</option>
+                    <option>EDF</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="paginacao" class="col-form-label">Algoritmo de paginação:</label>
+                  <select type="number" class="form-control" min="0" id="paginacao">
+                    <option>FIFO</option>
+                    <option>LRU</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="quantum" class="col-form-label">Quantum:</label>
+                  <input type="number" class="form-control" min="0" id="quantum">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Fechar</button>
+              <button type="button" class="btn btn-primary" id="send" onclick="configs();">Confirmar</button>
             </div>
           </div>
         </div>

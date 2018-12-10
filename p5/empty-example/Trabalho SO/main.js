@@ -21,7 +21,7 @@ var over = 1;
 var pid = 0;
 var processos = new PriorityQueue();
 var qt = 2;
-var quantum = 2;
+var quantum;
 var ram;
 var size;
 var start;
@@ -30,19 +30,18 @@ var tam = 10;
 var time = 0;
 var transX = 0;
 var transY = 0;
+var turnar = 0;
 var velocidade;
 //TODO: Adicionar overhead
 function setup() {
     createCanvas(windowWidth - 7, windowHeight - 7, P2D);
     velocidade = createSlider(1, 60, 2);
-    cpu = new CPU(new FIFO());
-    ram = new Memory(width, height, new FIFO());
-    velocidade.position = (width * 0.1, height * 0.05);
+
     background(255);
     transY = height * 0.8;
     size = ceil(height * 0.03);
     //IO
-    var job = new Process(0, 0, 1, 6, 6);
+    /*var job = new Process(0, 0, 1, 6, 6);
     processos.push(job, 0);
     jobs.push(job);
     job = new Process(1, 0, 1, 6, 1);
@@ -68,37 +67,47 @@ function setup() {
     jobs.push(job);
     job = new Process(8, 0, 6, 6, 6);
     processos.push(job, 0);
-    jobs.push(job);
-
-    escCPU = createSelect();
-    escCPU.position(10, 10);
-    escCPU.option('FIFO');
-    escCPU.option('SJF');
-    escCPU.option('EDF');
-    escCPU.option('Round Robin');
-    escCPU.changed(selectCPUEsc);
-
-    escMem = createSelect();
-    escMem.position(200, 10);
-    escMem.option('FIFO');
-    escMem.option('LRU');
-    escMem.changed(selectMemoryEsc);
+    jobs.push(job);*/
 
     disco = new Disco(width, height);
+
     button = createButton('Novo processo');
     button.id("newprocess");
     addAttr("#newprocess", "class", "btn btn-primary");
     addAttr("#newprocess", "data-toggle", "modal");
     addAttr("#newprocess", "data-target", "#Modal");
     displaceX = width / 2;
-    button.position(width * 0.7, height * 0.01);
     mid = width / 2;
+
     iniciar = createButton('Iniciar');
     iniciar.id("iniciar")
     addAttr("#iniciar", "class", "btn btn-success");
     iniciar.mousePressed(start);
-    iniciar.position(button.x + button.width + 20, height * 0.01);
     frameRate(0);
+
+    config = createButton('Configurações');
+    config.id("config");
+    addAttr("#config", "class", "btn btn-info");
+    addAttr("#config", "data-toggle", "modal");
+    addAttr("#config", "data-target", "#Modal3");
+
+    turn = createButton('Calcular Turnaround');
+    turn.id("turn")
+    addAttr("#turn", "class", "btn btn-warning");
+    turn.mousePressed(function(){
+        if(turnar==1){
+            var tot = 0;
+            jobs.forEach(p => {
+                tot += p.end -p.start;
+            });
+            return alert(tot/jobs.length);
+        }
+        else{
+            alert("Espere todos os processos serem iniciados e executados antes de calcular o turnaround");
+        }
+    });
+    frameRate(0);
+
     node = document.createElement("i");
     node.setAttribute("id", "question");
     node.setAttribute("class", "fas fa-question-circle");
@@ -109,7 +118,16 @@ function setup() {
     icon = createDiv();
     icon.id("icon");
     document.getElementById("icon").appendChild(node);
-    icon.position(button.x + button.width + 100, height * 0.01);
+
+    iniciar.position(width * 0.005, height * 0.01);
+    button.position(iniciar.x + iniciar.width + 20, height * 0.01);
+    config.position(iniciar.x + iniciar.width + 160, height * 0.01);
+    turn.position(iniciar.x + button.width + 230, height * 0.01);
+    icon.position(iniciar.x + button.width + 410, height * 0.01);
+    velocidade.position(width * 0.35, height * 0.05);
+    textSize(15);
+    text("VELOCIDADE:", velocidade.x * 1, height*0.03);
+
     addAttr("#icon", "data-toggle", "modal");
     addAttr("#icon", "data-target", "#Modal2");
 
@@ -131,8 +149,7 @@ function draw() {
         frameRate(100);
         if(okay == 1){
             okay=0;
-            
-            alert(calcularTurnaround());
+            turnar=1;
         }
     }
     ram.show();
@@ -167,25 +184,3 @@ function draw() {
     }
 }
 
-function addAttr(button, data, item) {
-    $(button).attr(data, item);
-}
-
-function addProcess() {
-    var start = $("#start").val();
-    var duration = $("#duration").val();
-    var deadline = $("#deadline").val();
-    var priority = $("#priority").val();
-    if (start !== "" && duration !== "" && deadline !== "" && priority !== "") {
-        var job = new Process(pid++, start, deadline, duration, priority);
-        processos.push(job, start);
-        jobs.push(job);
-        $("#start").val("");
-        $("#duration").val("");
-        $("#deadline").val("");
-        $("#priority").val("");
-    } else {
-        alert("Favor preencher todos os campos com valores válidos");
-    }
-    tam++;
-}
