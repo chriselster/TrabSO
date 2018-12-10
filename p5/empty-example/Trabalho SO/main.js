@@ -1,5 +1,6 @@
 //TODO: formulario quantum e alg escalonador
 var button;
+var stopped = 0;
 var cancel;
 var cpu;
 var okay = 1;
@@ -20,13 +21,13 @@ var ok = false;
 var over = 1;
 var pid = 0;
 var processos = new PriorityQueue();
-var qt = 2;
+var qt;
 var quantum;
 var ram;
 var size;
 var start;
 var submit;
-var tam = 10;
+var tam = 0;
 var time = 0;
 var transX = 0;
 var transY = 0;
@@ -40,39 +41,9 @@ function setup() {
     background(255);
     transY = height * 0.8;
     size = ceil(height * 0.03);
-    //IO
-    /*var job = new Process(0, 0, 1, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(1, 0, 1, 6, 1);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(2, 0, 1, 6, 1);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(3, 0, 1, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(4, 0, 6, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(5, 0, 6, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(6, 0, 6, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(7, 0, 6, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);
-    job = new Process(8, 0, 6, 6, 6);
-    processos.push(job, 0);
-    jobs.push(job);*/
 
-    disco = new Disco(width, height);
-
-    button = createButton('Novo processo');
-    button.id("newprocess");
+    novoProcesso = createButton('Novo processo');
+    novoProcesso.id("newprocess");
     addAttr("#newprocess", "class", "btn btn-primary");
     addAttr("#newprocess", "data-toggle", "modal");
     addAttr("#newprocess", "data-target", "#Modal");
@@ -83,7 +54,13 @@ function setup() {
     iniciar.id("iniciar")
     addAttr("#iniciar", "class", "btn btn-success");
     iniciar.mousePressed(start);
-    frameRate(0);
+
+    pause = createButton('Pausar/Continuar');
+    pause.mousePressed(stop);
+
+    step = createButton('Step');
+    step.mousePressed(stepOne);
+    
 
     config = createButton('Configurações');
     config.id("config");
@@ -120,20 +97,23 @@ function setup() {
     document.getElementById("icon").appendChild(node);
 
     iniciar.position(width * 0.005, height * 0.01);
-    button.position(iniciar.x + iniciar.width + 20, height * 0.01);
+    novoProcesso.position(iniciar.x + iniciar.width + 20, height * 0.01);
     config.position(iniciar.x + iniciar.width + 160, height * 0.01);
-    turn.position(iniciar.x + button.width + 230, height * 0.01);
-    icon.position(iniciar.x + button.width + 410, height * 0.01);
+    turn.position(iniciar.x + novoProcesso.width + 230, height * 0.01);
+    icon.position(iniciar.x + novoProcesso.width + 410, height * 0.01);
     velocidade.position(width * 0.35, height * 0.05);
+    pause.position(velocidade.x + velocidade.width +30, height*0.03);
+    step.position(pause.x + pause.width +30, height*0.03);
     textSize(15);
     text("VELOCIDADE:", velocidade.x * 1, height*0.03);
-
     addAttr("#icon", "data-toggle", "modal");
     addAttr("#icon", "data-target", "#Modal2");
-
+    
 }
 
 function draw() {
+    textSize(15);
+    text("VELOCIDADE:", velocidade.x * 1, height*0.03);
     background(255);
     frameRate(velocidade.value());
     while (processos.front().start == time) {

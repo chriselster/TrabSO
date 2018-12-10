@@ -5,8 +5,9 @@ class Disco {
         this.width = w * 0.3;
         this.height = h * 0.65;
         this.next = 0;
-        this.tamProc = this.height / ((jobs.length*7));
-        if(this.tamProc<0)this.tamProc = 5;
+        this.qtd = jobs.length*7;
+        if(this.qtd<20)this.qtd = 20;
+        this.tamProc = this.height / this.qtd;
         this.vazio = new Array((jobs.length*7));
         this.paginas = new Array((jobs.length*7));
         this.vazio.fill(1);
@@ -23,6 +24,7 @@ class Disco {
         for (let i = this.y + this.tamProc; i < this.y + this.height+1; i += this.tamProc) {
             push();
             stroke(0);
+            strokeWeight(2);
             line(this.x, i, this.x + this.width, i);
             stroke(0);
             fill(0);

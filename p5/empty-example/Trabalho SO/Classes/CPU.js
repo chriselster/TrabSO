@@ -26,6 +26,27 @@ class CPU {
                 pop();
             }
         });
+        for(let i = 0; i<jobs.length;i++){
+            let p = jobs[i];
+            if(this.ant!= p.pid && time>=p.start && p.duration){
+                hist.push({
+                    pid: p.pid,
+                    x: time * (size + size * 0.2),
+                    y: (p.pid + 1) * (size + size * 0.2),
+                    trans: [mid - transX * (size + size * 0.2), transY],
+                    d: function () {
+                        push();
+                        stroke(0);
+                        colorMode(RGB,255);
+                        fill(255, 246, 201);
+                        rectMode(CENTER);
+                        translate(0, this.trans[1]);
+                        rect(this.x, this.y, size, size);
+                        pop();
+                    }
+                });
+            }
+        }
     }
 
     show(time, transX, transY) {
@@ -42,7 +63,7 @@ class CPU {
                 strokeWeight(1);
                 rectMode(CENTER);
                 text(this.txt, this.x - size / 2, this.y, size, size);
-                line(this.x - size + size * 0.15, this.y + size / 4, this.x - size + size * 0.15, this.y + (size + size * 0.2) * tam);
+                line(this.x - size + size * 0.15, this.y + size / 4, this.x - size + size * 0.15, this.y+size/2 + (size + size * 0.2) * tam);
                 pop();
 
             }
@@ -73,41 +94,58 @@ class CPU {
             });
 
             this.emExecucao = p.pid;
+            let dead = 255;
+            if(this.esc.id == 3&&p.deadline<=time)dead = 180;
             hist.push({
                 pid: p.pid,
+                color: dead,
                 x: time * (size + size * 0.2),
                 y: (p.pid + 1) * (size + size * 0.2),
                 trans: [mid - transX * (size + size * 0.2), transY],
                 d: function () {
                     push();
                     stroke(0);
-                    fill(255);
+                    fill(dead);
                     rectMode(CENTER);
                     translate(0, this.trans[1]);
                     rect(this.x, this.y, size, size);
                     fill(0);
                     noStroke();
                     textSize(height*0.015);
-                    text(this.pid, this.x , this.y+size*0.4);
+                    text(this.pid, this.x -size*0.1, this.y+size*0.4);
                     pop();
                 }
             });
             
             for(let i = 0; i<jobs.length;i++){
                 let p = jobs[i];
-                if(this.emExecucao!= p.pid && time>=p.start && p.duration){
+                if(this.esc.id == 3&&p.deadline == time){
                     hist.push({
-                        pid: p.pid,
                         x: time * (size + size * 0.2),
                         y: (p.pid + 1) * (size + size * 0.2),
-                        trans: [mid - transX * (size + size * 0.2), transY],
+                        trans: transY,
+                        d: function () {
+                            push();
+                            translate(0, this.trans);
+                            stroke(255,0,0);
+                            strokeWeight(3);
+                            line(this.x-size/2-size*0.1, this.y-size/2,this.x-size/2-size*0.1, this.y+size/2);
+                            pop();
+                        }
+                    })
+                }
+                if(this.emExecucao!= p.pid && time>=p.start && p.duration){
+                    hist.push({
+                        x: time * (size + size * 0.2),
+                        y: (p.pid + 1) * (size + size * 0.2),
+                        trans: transY,
                         d: function () {
                             push();
                             stroke(0);
                             colorMode(RGB,255);
                             fill(255, 246, 201);
                             rectMode(CENTER);
-                            translate(0, this.trans[1]);
+                            translate(0, this.trans);
                             rect(this.x, this.y, size, size);
                             pop();
                         }

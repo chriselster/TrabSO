@@ -1,7 +1,7 @@
 class EDF{
 
     constructor(){
-        this.id = 0;
+        this.id = 3;
         this.premp = 1;
         this.fila = new PriorityQueue();
     }
